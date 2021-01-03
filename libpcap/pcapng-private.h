@@ -26,27 +26,27 @@
 
 #include <sys/queue.h>
 
-#include "pcap-ng.h"
+#include "pcap/pcap-ng.h"
 
 struct pcapng_block {
 	u_char		*pcapng_bufptr;
 	size_t		pcapng_buflen;
 	int		pcapng_buf_is_external;
-	
+
 	uint32_t	pcapng_block_type;
 	size_t		pcapng_block_len;
 	int		pcapng_block_swapped;
-		
+
 	size_t		pcapng_fields_len;
-	
+
 	u_char		*pcapng_data_ptr;
 	size_t		pcapng_data_len;
 	u_int32_t	pcapng_cap_len;
 	int		pcapng_data_is_external;
-	
+
 	size_t		pcapng_records_len;
 	size_t		pcapng_options_len;
-	
+
 	union {
 		struct pcapng_section_header_fields		_section_header;
 		struct pcapng_interface_description_fields	_interface_description;
@@ -56,6 +56,7 @@ struct pcapng_block {
 		struct pcapng_enhanced_packet_fields		_enhanced_packet;
 		struct pcapng_process_information_fields	_process_information;
 		struct pcapng_os_event_fields			_os_event_information;
+		struct pcapng_decryption_secrets_fields		_decryption_secrets;
 	} block_fields_;
 };
 
@@ -67,6 +68,7 @@ struct pcapng_block {
 #define pcap_ng_epb_fields		block_fields_._enhanced_packet
 #define pcap_ng_pib_fields		block_fields_._process_information
 #define pcap_ng_osev_fields		block_fields_._os_event_information
+#define pcap_ng_dsb_fields		block_fields_._decryption_secrets
 
 /* Representation of on file data structure items */
 #define PCAPNG_BYTE_ORDER_MAGIC	0x1A2B3C4D
